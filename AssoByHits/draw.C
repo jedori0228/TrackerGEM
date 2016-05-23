@@ -203,9 +203,9 @@ void draw(){
   canvas_margin(mis_vs_eff_Pull);
   mis_vs_eff_Pull->cd();
   // att settings
-  gr_maxXPull_GE11->SetLineColor(kBlack);
+  gr_maxXPull_GE11->SetLineColor(kRed);
   gr_maxYPull_GE11->SetLineColor(kBlue);
-  gr_maxXPull_GE21->SetLineColor(kBlack);
+  gr_maxXPull_GE21->SetLineColor(kRed);
   gr_maxYPull_GE21->SetLineColor(kBlue);
   gr_maxXPull_GE11->SetLineWidth(2);
   gr_maxYPull_GE11->SetLineWidth(2);
@@ -218,11 +218,13 @@ void draw(){
   gr_maxXPull_GE11->SetTitle("mis_vs_eff_Pull");
   gr_maxXPull_GE11->GetXaxis()->SetRangeUser(0, 1.0);
   gr_maxXPull_GE11->GetYaxis()->SetRangeUser(0.0001, 1.0);
+  gr_maxXPull_GE11->GetXaxis()->SetTitle("Signal Efficiency");
+  gr_maxXPull_GE11->GetYaxis()->SetTitle("Misidentification probability");
   gr_maxYPull_GE11->Draw("lsame");
   gr_maxXPull_GE21->Draw("lsame");
   gr_maxYPull_GE21->Draw("lsame");
   // legend
-  TLegend lg_maxXPull(0.6, 0.25, 0.9, 0.50);
+  TLegend lg_maxXPull(0.7, 0.15, 0.95, 0.40);
   lg_maxXPull.SetFillStyle(0);
   lg_maxXPull.SetBorderSize(0);
   lg_maxXPull.AddEntry(gr_maxXPull_GE11, "X/GE11", "l");
@@ -261,8 +263,8 @@ void draw(){
   canvas_margin(mis_vs_eff_maxX);
   mis_vs_eff_maxX->cd();
   // att settings
-  gr_maxX_GE11->SetLineColor(kBlack);
-  gr_maxX_GE21->SetLineColor(kBlack);
+  gr_maxX_GE11->SetLineColor(kRed);
+  gr_maxX_GE21->SetLineColor(kRed);
   gr_maxX_GE11->SetLineWidth(2);
   gr_maxX_GE21->SetLineWidth(2);
   gr_maxX_GE21->SetLineStyle(2);
@@ -270,14 +272,16 @@ void draw(){
   gr_maxX_GE11->Draw("al");
   gr_maxX_GE11->SetTitle("mis_vs_eff_maxX");
   gr_maxX_GE11->GetXaxis()->SetRangeUser(0, 1.0);
-  gr_maxXPull_GE11->GetYaxis()->SetRangeUser(0.0001, 1.0);
+  gr_maxX_GE11->GetYaxis()->SetRangeUser(0.0001, 1.0);
+  gr_maxX_GE11->GetXaxis()->SetTitle("Signal Efficiency");
+  gr_maxX_GE11->GetYaxis()->SetTitle("Misidentification probability");
   gr_maxX_GE21->Draw("lsame");
   // legend
-  TLegend lg_maxX(0.6, 0.25, 0.9, 0.50);
+  TLegend lg_maxX(0.7, 0.15, 0.95, 0.40);
   lg_maxX.SetFillStyle(0);
   lg_maxX.SetBorderSize(0);
-  lg_maxX.AddEntry(gr_maxX_GE11, "PullX/GE11", "l");
-  lg_maxX.AddEntry(gr_maxX_GE21, "PullX/GE21", "l");
+  lg_maxX.AddEntry(gr_maxX_GE11, "X/GE11", "l");
+  lg_maxX.AddEntry(gr_maxX_GE21, "X/GE21", "l");
   lg_maxX.Draw();
   // save
   mis_vs_eff_maxX->SaveAs("mis_vs_eff_maxX.png");
@@ -320,9 +324,11 @@ void draw(){
   gr_maxY_GE11->SetTitle("mis_vs_eff_maxY");
   gr_maxY_GE11->GetXaxis()->SetRangeUser(0, 1.0);
   gr_maxY_GE11->GetYaxis()->SetRangeUser(0.0001, 1.0);
+  gr_maxY_GE11->GetXaxis()->SetTitle("Signal Efficiency");
+  gr_maxY_GE11->GetYaxis()->SetTitle("Misidentification probability");
   gr_maxY_GE21->Draw("lsame");
   // legend
-  TLegend lg_maxY(0.6, 0.25, 0.9, 0.50);
+  TLegend lg_maxY(0.7, 0.15, 0.95, 0.40);
   lg_maxY.SetFillStyle(0);
   lg_maxY.SetBorderSize(0);
   lg_maxY.AddEntry(gr_maxY_GE11, "Y/GE11", "l");
@@ -364,9 +370,11 @@ void draw(){
   gr_minDotDir_GE11->SetTitle("mis_vs_eff_minDotDir");
   gr_minDotDir_GE11->GetXaxis()->SetRangeUser(0, 1.0);
   gr_minDotDir_GE11->GetYaxis()->SetRangeUser(0.0001, 1.0);
+  gr_minDotDir_GE11->GetXaxis()->SetTitle("Signal Efficiency");
+  gr_minDotDir_GE11->GetYaxis()->SetTitle("Misidentification probability");
   gr_minDotDir_GE21->Draw("lsame");
   // legend
-  TLegend lg_minDotDir(0.6, 0.25, 0.9, 0.50);
+  TLegend lg_minDotDir(0.7, 0.15, 0.95, 0.40);
   lg_minDotDir.SetFillStyle(0);
   lg_minDotDir.SetBorderSize(0);
   lg_minDotDir.AddEntry(gr_minDotDir_GE11, "DotDir/GE11", "l");

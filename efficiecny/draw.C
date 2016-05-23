@@ -2,11 +2,11 @@
 
 void draw(){
 
-  TFile* file = new TFile("eff.root");
+  TFile* file = new TFile("eff_maxpull_2_for_all.root");
   
   vector<TString> variable = {"onebin", "eta", "pt"};
 
-  vector<TString> object = {"standalone_trackerGEM", "SAMuon", "TrackerMuon"};
+  vector<TString> object = {"GEMMuon_and_TrackerMuon", "SAMuon", "TrackerMuon"};
   vector<Color_t> color = {kRed, kBlack, kBlue};
 
   for(unsigned int it_var=0; it_var<variable.size(); it_var++){
