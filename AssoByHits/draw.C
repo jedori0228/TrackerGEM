@@ -7,8 +7,8 @@ void draw(){
   gStyle->SetOptStat(0);
   TH1::SetDefaultSumw2(true);
   
-  TFile* file_MuonGun = new TFile("OUTPUTTEMPLATE_MuonGun.root");
-  TFile* file_MinBias = new TFile("OUTPUTTEMPLATE_MinBias.root");
+  TFile* file_MuonGun = new TFile("./rootfiles/OUTPUTTEMPLATE_MuonGun.root");
+  TFile* file_MinBias = new TFile("./rootfiles/OUTPUTTEMPLATE_MinBias.root");
   
   /* Eff by gen-reco deltaR matching */
   
@@ -28,7 +28,7 @@ void draw(){
   GenMuon_Eta->Draw("");
   GenMuon_Eta->SetTitle("GenMuon |#eta|");
   GenMuon_Eta->GetXaxis()->SetTitle("|#eta|");
-  c_GenMuon_Eta->SaveAs("GenMuon_Eta.png");
+  c_GenMuon_Eta->SaveAs("./plots/GenMuon_Eta.png");
   c_GenMuon_Eta->Close();
   
   TCanvas* c_GenMuon_Pt = new TCanvas("c_GenMuon_Pt", "", 800, 600);
@@ -37,7 +37,7 @@ void draw(){
   GenMuon_Pt->Draw("");
   GenMuon_Pt->SetTitle("GenMuon p_{T}");
   GenMuon_Pt->GetXaxis()->SetTitle("p_{T} [GeV]");
-  c_GenMuon_Pt->SaveAs("GenMuon_Pt.png");
+  c_GenMuon_Pt->SaveAs("./plots/GenMuon_Pt.png");
   c_GenMuon_Pt->Close();
   
   TCanvas* c_Eff_Eta = new TCanvas("c_Eff_Eta", "", 800, 600);
@@ -46,7 +46,7 @@ void draw(){
   gr_Eff_Eta->Draw("ap");
   gr_Eff_Eta->GetYaxis()->SetRangeUser(0, 1.2);
   gr_Eff_Eta->GetXaxis()->SetTitle("|#eta|");
-  c_Eff_Eta->SaveAs("Eff_Eta.png");
+  c_Eff_Eta->SaveAs("./plots/Eff_Eta.png");
   c_Eff_Eta->Close();
   
   TCanvas* c_Eff_Pt = new TCanvas("c_Eff_Pt", "", 800, 600);
@@ -56,7 +56,7 @@ void draw(){
   gr_Eff_Pt->GetXaxis()->SetTitle("p_{T} [GeV]");
   gPad->SetLogx();
   gr_Eff_Pt->GetYaxis()->SetRangeUser(0, 1.2);
-  c_Eff_Pt->SaveAs("Eff_Pt.png");
+  c_Eff_Pt->SaveAs("./plots/Eff_Pt.png");
   gPad->SetLogx(kFALSE);
   c_Eff_Pt->Close();
   
@@ -78,7 +78,7 @@ void draw(){
   TPMuon_Eta->Draw("");
   TPMuon_Eta->SetTitle("TPMuon |#eta|");
   TPMuon_Eta->GetXaxis()->SetTitle("|#eta|");
-  c_TPMuon_Eta->SaveAs("TPMuon_Eta.png");
+  c_TPMuon_Eta->SaveAs("./plots/TPMuon_Eta.png");
   c_TPMuon_Eta->Close();
   
   TCanvas* c_TPMuon_Pt = new TCanvas("c_TPMuon_Pt", "", 800, 600);
@@ -87,7 +87,7 @@ void draw(){
   TPMuon_Pt->Draw("");
   TPMuon_Pt->SetTitle("TPMuon p_{T}");
   TPMuon_Pt->GetXaxis()->SetTitle("p_{T} [GeV]");
-  c_TPMuon_Pt->SaveAs("TPMuon_Pt.png");
+  c_TPMuon_Pt->SaveAs("./plots/TPMuon_Pt.png");
   c_TPMuon_Pt->Close();
   
   TCanvas* c_HitsEff_Eta = new TCanvas("c_HitsEff_Eta", "", 800, 600);
@@ -96,7 +96,7 @@ void draw(){
   gr_HitsEff_Eta->Draw("ap");
   gr_HitsEff_Eta->GetYaxis()->SetRangeUser(0, 1.2);
   gr_HitsEff_Eta->GetXaxis()->SetTitle("|#eta|");
-  c_HitsEff_Eta->SaveAs("HitsEff_Eta.png");
+  c_HitsEff_Eta->SaveAs("./plots/HitsEff_Eta.png");
   c_HitsEff_Eta->Close();
   
   TCanvas* c_HitsEff_Pt = new TCanvas("c_HitsEff_Pt", "", 800, 600);
@@ -106,7 +106,7 @@ void draw(){
   gr_HitsEff_Pt->GetXaxis()->SetTitle("p_{T} [GeV]");
   gPad->SetLogx();
   gr_HitsEff_Pt->GetYaxis()->SetRangeUser(0, 1.2);
-  c_HitsEff_Pt->SaveAs("HitsEff_Pt.png");
+  c_HitsEff_Pt->SaveAs("./plots/HitsEff_Pt.png");
   gPad->SetLogx(kFALSE);
   c_HitsEff_Pt->Close();
   
@@ -125,10 +125,10 @@ void draw(){
   HitsUnmatchedGEMMuon_Eta->SetTitle(TString::Itoa(Nevents/1000., 10)+"k MinBias Events");
   HitsUnmatchedGEMMuon_Eta->SetXTitle("|#eta|");
   gPad->SetLogy();
-  c_HitsUnmatchedGEMMuon_Eta->SaveAs("HitsUnmatchedGEMMuon_Eta.png");
+  c_HitsUnmatchedGEMMuon_Eta->SaveAs("./plots/HitsUnmatchedGEMMuon_Eta.png");
   HitsUnmatchedGEMMuon_Eta->Scale(1./Nevents);
   HitsUnmatchedGEMMuon_Eta->Draw("");
-  c_HitsUnmatchedGEMMuon_Eta->SaveAs("HitsUnmatchedGEMMuon_Eta_per_event.png");
+  c_HitsUnmatchedGEMMuon_Eta->SaveAs("./plots/HitsUnmatchedGEMMuon_Eta_per_event.png");
   gPad->SetLogy(kFALSE);
   c_HitsUnmatchedGEMMuon_Eta->Close();
   
@@ -140,10 +140,10 @@ void draw(){
   HitsUnmatchedGEMMuon_Pt->SetXTitle("p_{T} [GeV]");
   gPad->SetLogx();
   gPad->SetLogy();
-  c_HitsUnmatchedGEMMuon_Pt->SaveAs("HitsUnmatchedGEMMuon_Pt.png");
+  c_HitsUnmatchedGEMMuon_Pt->SaveAs("./plots/HitsUnmatchedGEMMuon_Pt.png");
   HitsUnmatchedGEMMuon_Pt->Scale(1./Nevents);
   HitsUnmatchedGEMMuon_Pt->Draw("");
-  c_HitsUnmatchedGEMMuon_Pt->SaveAs("HitsUnmatchedGEMMuon_Pt_per_event.png");
+  c_HitsUnmatchedGEMMuon_Pt->SaveAs("./plots/HitsUnmatchedGEMMuon_Pt_per_event.png");
   gPad->SetLogx(kFALSE);
   gPad->SetLogy(kFALSE);
   c_HitsUnmatchedGEMMuon_Pt->Close();
@@ -233,7 +233,7 @@ void draw(){
   lg_maxXPull.AddEntry(gr_maxYPull_GE21, "Y/GE21", "l");
   lg_maxXPull.Draw();
   // save
-  mis_vs_eff_Pull->SaveAs("mis_vs_eff_Pull.png");
+  mis_vs_eff_Pull->SaveAs("./plots/mis_vs_eff_Pull.png");
   mis_vs_eff_Pull->Close();
   
   // maxX //
@@ -284,7 +284,7 @@ void draw(){
   lg_maxX.AddEntry(gr_maxX_GE21, "X/GE21", "l");
   lg_maxX.Draw();
   // save
-  mis_vs_eff_maxX->SaveAs("mis_vs_eff_maxX.png");
+  mis_vs_eff_maxX->SaveAs("./plots/mis_vs_eff_maxX.png");
   mis_vs_eff_maxX->Close();
   
   // maxY //
@@ -335,7 +335,7 @@ void draw(){
   lg_maxY.AddEntry(gr_maxY_GE21, "Y/GE21", "l");
   lg_maxY.Draw();
   // save
-  mis_vs_eff_maxY->SaveAs("mis_vs_eff_maxY.png");
+  mis_vs_eff_maxY->SaveAs("./plots/mis_vs_eff_maxY.png");
   mis_vs_eff_maxY->Close();
 
   // DotDir //
@@ -381,7 +381,7 @@ void draw(){
   lg_minDotDir.AddEntry(gr_minDotDir_GE21, "DotDir/GE21", "l");
   lg_minDotDir.Draw();
   // save
-  mis_vs_eff_minDotDir->SaveAs("mis_vs_eff_minDotDir.png");
+  mis_vs_eff_minDotDir->SaveAs("./plots/mis_vs_eff_minDotDir.png");
   mis_vs_eff_minDotDir->Close();
 
   
