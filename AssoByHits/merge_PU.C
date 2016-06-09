@@ -7,6 +7,8 @@ void merge_PU(){
   TFile* file_50 = new TFile("./plots/Hist_PU_50.root");
   TFile* file_100 = new TFile("./plots/Hist_PU_100.root");
   TFile* file_140 = new TFile("./plots/Hist_PU_140.root");
+  TFile* file_140_only_GEMMuon = new TFile("./plots/Hist_PU_only_GEMMuon_140.root");
+  TFile* file_140_only_TrackerMuon = new TFile("./plots/Hist_PU_only_TrackerMuon_140.root");
 
   //==== Eta
   
@@ -76,5 +78,40 @@ void merge_PU(){
   c_Pt->SaveAs("./plots/Eff_Pt_for_PUs.png");
   
   
+  //==============================================
+  //==== isGEMMuon(), isTrackerMuon() separately
+  //==============================================
+  
+  //==== Eta
+  TCanvas* c_Eta_sep = new TCanvas("c_Eta_sep", "", 800, 600);
+  canvas_margin(c_Eta_sep);
+  c_Eta_sep->cd();
+  TGraph* Eff_Eta_140_dR = (TGraph*)file_140->Get("Eff_Eta");
+  TGraph* Eff_Eta_140_only_GEMMuon = (TGraph*)file_140_only_GEMMuon->Get("Eff_Eta");
+  TGraph* Eff_Eta_140_only_TrackerMuon = (TGraph*)file_140_only_TrackerMuon->Get("Eff_Eta");
+  Eff_Eta_140_dR->Draw("ap");
+  Eff_Eta_140_dR->SetLineColor(kBlack);
+  Eff_Eta_140_dR->GetYaxis()->SetRangeUser(0, 1.2);
+  Eff_Eta_140_dR->GetXaxis()->SetTitle("|#eta|");
+  //Eff_Eta_140_only_GEMMuon->Draw("psame");
+  Eff_Eta_140_only_GEMMuon->SetLineColor(kBlue);
+  //Eff_Eta_140_only_TrackerMuon->Draw("psame");
+  Eff_Eta_140_only_TrackerMuon->SetLineColor(kRed);
+  TLegend* lg_Eta_sep = new TLegend(0.5, 0.15, 0.95, 0.30);
+  lg_Eta_sep->SetFillStyle(0);
+  lg_Eta_sep->SetBorderSize(0);
+  lg_Eta_sep->AddEntry(Eff_Eta_140_dR, "isGEMMuon() AND isTrackerMuon()", "l");
+  lg_Eta_sep->AddEntry(Eff_Eta_140_only_GEMMuon, "isGEMMuon()", "l");
+  lg_Eta_sep->AddEntry(Eff_Eta_140_only_TrackerMuon, "isTrackerMuon()", "l");
+  lg_Eta_sep->Draw();
+  c_Eta_sep->SaveAs("./plots/Eff_Eta_for_PUs_sep.png");
+
+  
+  
   
 }
+
+
+
+
+
