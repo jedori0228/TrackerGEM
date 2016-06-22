@@ -2,14 +2,14 @@
 
 void draw_each_layer(){
  
-  TFile *file = new TFile("./rootfiles/OUTPUTTEMPLATE_MuonGun_noise_off.root");
+  TFile *file = new TFile("./rootfiles/OUTPUTTEMPLAT_140PU_dBunchX_1_file4.root");
   
   //==== each layer
   
   TString stations[2] = {"GE11", "GE21"};
   TString layers[4] = {"layer1", "layer2", "two", "segment"};
   TString legend_name[4] = {"layer1", "layer2", "Both layer", "Segment"};
-  Color_t linecolor[4] = {kBlack, kBlack, kBlack, kRed};
+  Color_t linecolor[4] = {kBlack, kBlack, kBlue, kRed};
   Style_t linestyle[4] = {1, 2, 3, 1};
   
 
@@ -42,6 +42,7 @@ void draw_each_layer(){
       gr_Eta[i]->SetLineWidth(3);
       if(i==0){
         gr_Eta[i]->Draw("ap");
+        gr_Eta[i]->SetTitle(stations[i_station]);
         gr_Eta[i]->GetYaxis()->SetRangeUser(0, 1.2);
       }
       else gr_Eta[i]->Draw("psame");
@@ -55,6 +56,7 @@ void draw_each_layer(){
       gr_Pt[i]->SetLineWidth(3);
       if(i==0){
         gr_Pt[i]->Draw("ap");
+        gr_Pt[i]->SetTitle(stations[i_station]);
         gr_Pt[i]->GetYaxis()->SetRangeUser(0, 1.2);
       }
       else gr_Pt[i]->Draw("psame");

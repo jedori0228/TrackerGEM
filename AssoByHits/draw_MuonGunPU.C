@@ -1,10 +1,10 @@
 #include "../include/canvas_margin.h"
 
-void draw_MuonGunPU(int x){
+void draw_MuonGunPU(){
  
-  TString n_PU = TString::Itoa(x, 10);
+  TString n_PU = "140";
  
-  TFile* file_MuonGunPU = new TFile("./rootfiles/OUTPUTTEMPLATE_MuonGun_PU_"+n_PU+".root");
+  TFile* file_MuonGunPU = new TFile("./rootfiles/OUTPUTTEMPLAT_140PU_dBunchX_0.root");
   
   TH1F* GenMuon_Eta = (TH1F*)file_MuonGunPU->Get("GenMuon_Eta");
   TH1F* GenMuon_Pt = (TH1F*)file_MuonGunPU->Get("GenMuon_Pt");
