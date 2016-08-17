@@ -8,58 +8,55 @@ void merge_PU(){
   
   TString plotpath = "./plots/CMSSW_8_1_0_pre9/";
   gSystem->mkdir(plotpath, kTRUE);
-
-  //==== Eta
   
-  TString var[2] = {"Eta", "Pt"};
-  TString xtitle[2] = {"|#eta|", "p_{T} [GeV]"};
+  vector<TString> MuonObjectType_hits = {"GEMMuon", "RecoMuon", "LooseMuon", "MediumMuon", "TightMuon"};
+  vector<TString> var = {"Eta", "Pt", "Phi"};
+  vector<TString> xtitle = {"|#eta|", "p_{T} [GeV]", "#phi"};
   
-  for(unsigned int i=0; i<2; i++){
+  for(unsigned int i=0; i<var.size(); i++){
+    TString this_var = var.at(i);
+    TString this_xtitle = xtitle.at(i);
     
-    TString this_var = var[i];
-    
-    TCanvas *c1 = new TCanvas("c_"+this_var, "", 800, 600);
-    canvas_margin(c1);
-    c1->cd();
-    TGraph *HitsEff_GEMMuon_0PU = (TGraph*)file_0->Get("HitsEff_GEMMuon_"+this_var);
-    TGraph *HitsEff_GEMMuon_140PU = (TGraph*)file_140->Get("HitsEff_GEMMuon_"+this_var);
-    TGraph *Eff_RecoMuon_140PU = (TGraph*)file_140->Get("HitsEff_RecoMuon_"+this_var);
-    TGraph *Eff_RecoMuon_140PU_noGEM = (TGraph*)file_140_noGEM->Get("HitsEff_RecoMuon_"+this_var);
-    //TGraph *Eff_NotGEMMuon_140PU = (TGraph*)file_140->Get("Eff_NotGEMMuon_"+this_var);
-    
-    HitsEff_GEMMuon_0PU->SetLineWidth(3);
-    HitsEff_GEMMuon_140PU->SetLineWidth(3);
-    Eff_RecoMuon_140PU->SetLineWidth(3);
-    Eff_RecoMuon_140PU_noGEM->SetLineWidth(3);
-    
-    
-    HitsEff_GEMMuon_0PU->Draw("ap");
-    HitsEff_GEMMuon_0PU->SetLineColor(kBlack);
-    HitsEff_GEMMuon_0PU->GetYaxis()->SetRangeUser(0.6, 1.1);
-    HitsEff_GEMMuon_0PU->GetXaxis()->SetTitle(xtitle[i]);
-    HitsEff_GEMMuon_140PU->Draw("psame");
-    HitsEff_GEMMuon_140PU->SetLineColor(kRed);
-    Eff_RecoMuon_140PU->Draw("psame");
-    Eff_RecoMuon_140PU->SetLineColor(kBlue);
-    Eff_RecoMuon_140PU_noGEM->Draw("psame");
-    Eff_RecoMuon_140PU_noGEM->SetLineColor(kBlue);
-    Eff_RecoMuon_140PU_noGEM->SetLineStyle(3);
-    //Eff_NotGEMMuon_140PU->Draw("psame");
-    //Eff_NotGEMMuon_140PU->SetLineColor(kViolet);
-    
-    TLegend* lg_Eta = new TLegend(0.5, 0.15, 0.95, 0.35);
-    lg_Eta->SetFillStyle(0);
-    lg_Eta->SetBorderSize(0);
-    lg_Eta->AddEntry(Eff_RecoMuon_140PU, "(140PU) RecoMuon, use GEM", "l");
-    lg_Eta->AddEntry(Eff_RecoMuon_140PU_noGEM, "(140PU) RecoMuon, no GEM", "l");
-    lg_Eta->AddEntry(HitsEff_GEMMuon_0PU, "(0PU) GEMMuon", "l");
-    lg_Eta->AddEntry(HitsEff_GEMMuon_140PU, "(140PU) GEMMuon", "l");
-    //lg_Eta->AddEntry(Eff_NotGEMMuon_140PU, "(140PU) RecoMuon but NotGEMMuon", "l");
-    lg_Eta->Draw();
-    c1->SaveAs(plotpath+"Eff_"+this_var+"_all.png");
+    for(unsigned int j=0; j<MuonObjectType_hits.size(); j++){
+      TString this_obj = MuonObjectType_hits.at(j);
+      
+      TCanvas *c1 = new TCanvas("c_"+this_var, "", 800, 600);
+      canvas_margin(c1);
+      c1->cd();
+      
+      TGraph *Eff_0PU = (TGraph*)file_0->Get("HitsEff_"+this_obj+"_"+this_var);
+      TGraph *Eff_140PU = (TGraph*)file_140->Get("HitsEff_"+this_obj+"_"+this_var);
+      TGraph *Eff_140PU_noGEM = (TGraph*)file_140_noGEM->Get("HitsEff_"+this_obj+"_"+this_var);
+      
+      Eff_0PU->SetLineWidth(3);
+      Eff_140PU->SetLineWidth(3);
+      Eff_140PU_noGEM->SetLineWidth(3);
+      
+      Eff_0PU->Draw("ap");
+      Eff_0PU->SetLineColor(kBlack);
+      Eff_0PU->GetYaxis()->SetRangeUser(0, 1.2);
+      Eff_0PU->GetXaxis()->SetTitle(this_xtitle);
+      Eff_140PU->Draw("psame");
+      Eff_140PU->SetLineColor(kRed);
+      Eff_140PU->Draw("psame");
+      Eff_140PU->SetLineColor(kBlue);
+      Eff_140PU_noGEM->Draw("psame");
+      Eff_140PU_noGEM->SetLineColor(kBlue);
+      Eff_140PU_noGEM->SetLineStyle(3);
+      
+      TLegend* lg = new TLegend(0.5, 0.15, 0.95, 0.35);
+      lg->SetFillStyle(0);
+      lg->SetBorderSize(0);
+      lg->AddEntry(Eff_140PU, "(140PU) "+this_obj+", with GEM", "l");
+      lg->AddEntry(Eff_140PU_noGEM, "(140PU) "+this_obj+", without GEM", "l");
+      lg->AddEntry(Eff_0PU, "(0PU) "+this_obj, "l");
+      lg->Draw();
+      c1->SaveAs(plotpath+"Eff_"+this_obj+"_"+this_var+"_all.png");
+      c1->Close();
+      delete c1;
+    }
   }
-  
-  
+
 }
 
 
