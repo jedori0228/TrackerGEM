@@ -23,9 +23,9 @@ void draw_eff_fake(int xxx=1){
     plotpath = "./plots/MuonGun_0PU_and_MinBias/";
   }
   if(xxx==1){
-    file_MuonGun = new TFile("./rootfiles/CMSSW_8_1_0_pre9/OUTPUT_RelValTenMuE_0_200_2023tiltedPU200.root");
-    file_MinBias = new TFile("./rootfiles/CMSSW_8_1_0_pre9/OUTPUT_RelValTenMuE_0_200_2023tiltedPU200.root");
-    plotpath = "plots/CMSSW_8_1_0_pre9/RelValTenMuE_0_200_2023tiltedPU200/";
+    file_MuonGun = new TFile("./rootfiles/CMSSW_8_1_0_pre11/OUTPUT_RelValTenMuE_0_200_140PU.root");
+    file_MinBias = new TFile("./rootfiles/CMSSW_8_1_0_pre11/OUTPUT_RelValTenMuE_0_200_140PU.root");
+    plotpath = "plots/CMSSW_8_1_0_pre11/RelValTenMuE_0_200_140PU/";
   }
   
   gSystem->mkdir(plotpath, kTRUE);
@@ -133,8 +133,8 @@ void draw_eff_fake(int xxx=1){
     delete c_TPMuon;
     
     //==== Efficiencies
-    for(unsigned int i=0; i<MuonObjectType_hits.size(); i++){
-      TString this_MuonObjectType_hits = MuonObjectType_hits.at(i);
+    for(unsigned int j=0; j<MuonObjectType_hits.size(); j++){
+      TString this_MuonObjectType_hits = MuonObjectType_hits.at(j);
       
       TEfficiency *Eff = (TEfficiency *)file_MuonGun->Get("HitsEff_"+this_MuonObjectType_hits+"_"+this_var);
       TGraph *gr_Eff = Eff->CreateGraph();
@@ -146,6 +146,7 @@ void draw_eff_fake(int xxx=1){
       gr_Eff->Draw("ap");
       gr_Eff->GetYaxis()->SetRangeUser(0, 1.2);
       gr_Eff->GetXaxis()->SetTitle(this_xtitle);
+      //if( this_var == "Pt" ) gr_Eff->GetXaxis()->SetRangeUser(0, 100);
       c_Eff->SaveAs(plotpath+"HitsEff_"+this_MuonObjectType_hits+"_"+this_var+".png");
       file_output->cd();
       gr_Eff->Write();
@@ -160,28 +161,38 @@ void draw_eff_fake(int xxx=1){
   
   TH1F* Nevents_h = (TH1F*)file_MinBias->Get("Nevents_h");
   int Nevents = Nevents_h->GetBinContent(2);
-  
+ 
   for(unsigned int i=0; i<var_hits.size(); i++){
     TString this_var = var_hits.at(i);
     TString this_xtitle = xtitle_hits.at(i);
+
+    for(unsigned int j=0; j<MuonObjectType_hits.size(); j++){
+      TString this_MuonObjectType_hits = MuonObjectType_hits.at(j);
   
-    TH1F *HitsUnmatchedGEMMuon = (TH1F *)file_MinBias->Get("HitsUnmatchedGEMMuon_"+this_var);
-    TCanvas *c_HitsUnmatchedGEMMuon = new TCanvas("HitsUnmatchedGEMMuon_"+this_var, "", 800, 600);
-    canvas_margin(c_HitsUnmatchedGEMMuon);
-    c_HitsUnmatchedGEMMuon->cd();
-    HitsUnmatchedGEMMuon->Draw("");
-    HitsUnmatchedGEMMuon->SetTitle(TString::Itoa(Nevents/1000., 10)+"k MinBias Events");
-    HitsUnmatchedGEMMuon->SetXTitle(this_xtitle);
-    gPad->SetLogy();
-    c_HitsUnmatchedGEMMuon->SaveAs(plotpath+"HitsUnmatchedGEMMuon_"+this_var+".png");
-    HitsUnmatchedGEMMuon->Scale(1./Nevents);
-    HitsUnmatchedGEMMuon->Draw("");
-    c_HitsUnmatchedGEMMuon->SaveAs(plotpath+"HitsUnmatchedGEMMuon_"+this_var+"_per_event.png");
-    file_output->cd();
-    c_HitsUnmatchedGEMMuon->Write();
-    gPad->SetLogy(kFALSE);
-    c_HitsUnmatchedGEMMuon->Close();
-    delete c_HitsUnmatchedGEMMuon;
+      TH1F *hist_n_track = (TH1F *)file_MinBias->Get("N_"+this_MuonObjectType_hits+"_h");
+      double Ntrack = hist_n_track->GetBinContent(1);
+      //double Ntrack = hist_n_track->GetEntries();
+      
+      TH1F *HitsUnmatchedGEMMuon = (TH1F *)file_MinBias->Get("HitsUnmatched"+this_MuonObjectType_hits+"_"+this_var);
+      TCanvas *c_HitsUnmatchedGEMMuon = new TCanvas("HitsUnmatched"+this_MuonObjectType_hits+"_"+this_var, "", 800, 600);
+      canvas_margin(c_HitsUnmatchedGEMMuon);
+      c_HitsUnmatchedGEMMuon->cd();
+      HitsUnmatchedGEMMuon->Draw("");
+      HitsUnmatchedGEMMuon->SetTitle("# of fake per RECO "+this_MuonObjectType_hits);
+      HitsUnmatchedGEMMuon->SetXTitle(this_xtitle);
+      //gPad->SetLogy();
+      c_HitsUnmatchedGEMMuon->SaveAs(plotpath+"HitsUnmatched"+this_MuonObjectType_hits+"_"+this_var+".png");
+      HitsUnmatchedGEMMuon->Scale(1./Ntrack);
+      HitsUnmatchedGEMMuon->Draw("");
+      HitsUnmatchedGEMMuon->SetMinimum(0);
+      c_HitsUnmatchedGEMMuon->SaveAs(plotpath+"HitsUnmatched"+this_MuonObjectType_hits+"_"+this_var+"_per_recotracks.png");
+      file_output->cd();
+      HitsUnmatchedGEMMuon->Write();
+      gPad->SetLogy(kFALSE);
+      c_HitsUnmatchedGEMMuon->Close();
+      delete c_HitsUnmatchedGEMMuon;
+
+    }
   }
   
   //======================================
