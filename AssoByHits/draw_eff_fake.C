@@ -8,7 +8,7 @@ void draw_eff_fake(bool DoGeom=false){
   TH1::SetDefaultSumw2(true);
   TH1::AddDirectory(kFALSE);
 
-  TString plotpath = "./plots/CMSSW_8_1_0_pre11/";
+  TString plotpath = "./plots/CMSSW_8_1_0_pre16/";
   
   gSystem->mkdir(plotpath, kTRUE);
   
@@ -51,7 +51,8 @@ void draw_eff_fake(bool DoGeom=false){
   vector<TString> MuonObj = {"GEMMuon", "RecoMuon", "LooseMuon", "MediumMuon", "TightMuon"};
   vector<Color_t> color_Obj = {kBlack, kGreen, kOrange, kBlue, kRed};
   
-  vector<TString> PU = {"0", "140", "200"};
+  //vector<TString> PU = {"0", "140", "200"};
+  vector<TString> PU = {"200"};
   vector<Color_t> color_PU = {kRed, kBlue, kBlack};
   
   //==== Which Kinematic Variable (Pt, Eta, Phi)
@@ -72,7 +73,8 @@ void draw_eff_fake(bool DoGeom=false){
       TLegend lg_up(0.65, 0.70, 0.93, 0.92);
       lg_up.SetBorderSize(0);
       
-      TFile *file = new TFile("rootfiles/CMSSW_8_1_0_pre11/OUTPUT_RelValZMM_13_"+this_PU+"PU.root");
+      //TFile *file = new TFile("rootfiles/CMSSW_8_1_0_pre16/OUTPUT_RelValTenMuE_0_200_PU"+this_PU+".root");
+      TFile *file = new TFile("rootfiles/CMSSW_8_1_0_pre16/OUTPUT_RelValZEE_1aTeV4_PU"+this_PU+".root");
       TString this_plotpath = plotpath+"EffFake_MuonObjs/";
       
       //==== Muon Obj (RecoMuon, TightMuon, GEMMuon ..)
@@ -170,7 +172,8 @@ void draw_eff_fake(bool DoGeom=false){
         Color_t thiscolor = color_PU.at(it_PU);
         //cout <<"  This PU = " << this_PU << endl;
         
-        TFile *file = new TFile("rootfiles/CMSSW_8_1_0_pre11/OUTPUT_RelValZMM_13_"+this_PU+"PU.root");
+        //TFile *file = new TFile("rootfiles/CMSSW_8_1_0_pre16/OUTPUT_RelValTenMuE_0_200_PU"+this_PU+".root");
+        TFile *file = new TFile("rootfiles/CMSSW_8_1_0_pre16/OUTPUT_RelValZEE_1aTeV4_PU"+this_PU+".root");
         
         //==== Efficiency
         c_eff->cd();

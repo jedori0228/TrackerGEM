@@ -22,15 +22,15 @@ void draw_matching_study(){
   vector<Color_t> colors_DotDir = {kBlack, kRed, kYellow-3, kOrange};
   vector<Color_t> colors_roc = {kBlack, kRed, kBlue, kMagenta, kOrange, kBlack};
   
-  TFile *file = new TFile("rootfiles/CMSSW_8_1_0_pre15/OUTPUT_Matching_RelValTenMuExtendedE_0_200_PU0.root");
-  TString plotpath = "./plots/CMSSW_8_1_0_pre15/Matching_0PU/";
+  TFile *file = new TFile("rootfiles/CMSSW_8_1_0_pre16/OUTPUT_Matching_RelValTenMuE_0_200_PU200.root");
+  TString plotpath = "./plots/CMSSW_8_1_0_pre16/Matching_200PU/";
 
   gSystem->mkdir(plotpath, kTRUE);
 
   TCanvas *c_roc = new TCanvas("c_roc", "", 1000, 1000);
   c_roc->cd();
   TH1F *dummy = new TH1F("dummy", "", 1, 0, 1);
-  dummy->SetMinimum(0.6);
+  dummy->SetMinimum(0.25);
   dummy->SetMaximum(1.);
   dummy->Draw("histsame");
   dummy->GetXaxis()->SetTitle("Efficiency");
@@ -100,11 +100,8 @@ void draw_matching_study(){
         //==== Fake
         c_fake->cd();
         TH1F *Unmatched = (TH1F*)file->Get("HitsUnmatched"+this_cutvar+"_"+this_var+"_"+s_value)->Clone();
-        TH1F *total;
-        if(this_var=="Pt") total = (TH1F*)file->Get("N_GEMMuon_"+this_cutvar+"_h_"+s_value);
-        else total = (TH1F*)file->Get("N_GEMMuon_ptcut_"+this_cutvar+"_h_"+s_value);
-        double n_total = total->GetBinContent(1);
-        Unmatched->Scale(1./n_total);
+        TH1F *total = (TH1F*)file->Get("Hits"+this_cutvar+"_"+this_var+"_"+s_value)->Clone();
+        Unmatched->Divide(total);
         TGraphAsymmErrors *Unmatched_gr;
         if(this_var=="Eta") Unmatched_gr = hist_to_graph(Unmatched, true);
         else Unmatched_gr = hist_to_graph(Unmatched);
@@ -121,7 +118,8 @@ void draw_matching_study(){
           double thismax, thismin;
           fillmaxmin(thismax, thismin, this_cutvar, this_var);
           //cout << "    Max = " << thismax << ", Min = " << thismin << endl;
-          Unmatched_gr->GetYaxis()->SetRangeUser(thismin, thismax);
+          //Unmatched_gr->GetYaxis()->SetRangeUser(thismin, thismax);
+          Unmatched_gr->GetYaxis()->SetRangeUser(0, 1.2);
           if(this_var=="Eta") Unmatched_gr->GetXaxis()->SetRangeUser(1.6, 2.4);
           if(this_var=="Pt") Unmatched_gr->GetXaxis()->SetRangeUser(0., 100.);
         }
@@ -146,9 +144,9 @@ void draw_matching_study(){
         if(this_var=="Pt") lg_up.Draw();
         else lg_down.Draw();
       }
-      gPad->SetLogy(1);
+      //gPad->SetLogy(1);
       c_fake->SaveAs(plotpath+"Fake_"+this_cutvar+"_"+this_var+".png");
-      gPad->SetLogy(0);
+      //gPad->SetLogy(0);
       c_fake->Close();
       delete c_fake;
   
@@ -218,96 +216,96 @@ void fillmaxmin(double& max, double& min, TString cutvar, TString var){
   //"Pt", "Eta", "Phi"
   if(cutvar=="PullX"){
     if(var=="Eta"){
-      max = 1.;
-      min = 0.01;
+      max = 10.;
+      min = 0.1;
     }
     else if(var=="Phi"){
-      max = 1.;
-      min = 0.001;
+      max = 10.;
+      min = 0.01;
     }
     else if(var=="Pt"){
-      max = 1.;
-      min = 0.0001;
+      max = 10.;
+      min = 0.001;
     }
     else{
-      max = 1.;
-      min = 0.00001;
+      max = 10.;
+      min = 0.0001;
     }
   }
   else if(cutvar=="DX"){
     if(var=="Eta"){
-      max = 1.;
-      min = 0.01;
+      max = 10.;
+      min = 0.1;
     }
     else if(var=="Phi"){
-      max = 1.;
-      min = 0.001;
+      max = 10.;
+      min = 0.01;
     }
     else if(var=="Pt"){
-      max = 1.;
-      min = 0.0001;
+      max = 10.;
+      min = 0.001;
     }
     else{
-      max = 1.;
-      min = 0.00001;
+      max = 10.;
+      min = 0.0001;
     }
   }
   else if(cutvar=="PullY"){
     if(var=="Eta"){
-      max = 1.;
-      min = 0.01;
+      max = 10.;
+      min = 0.1;
     }
     else if(var=="Phi"){
-      max = 1.;
-      min = 0.001;
+      max = 10.;
+      min = 0.01;
     }
     else if(var=="Pt"){
-      max = 1.;
-      min = 0.00001;
+      max = 10.;
+      min = 0.0001;
     }
     else{
-      max = 1.;
-      min = 0.00001;
+      max = 10.;
+      min = 0.0001;
     }
   }
   else if(cutvar=="DY"){
     if(var=="Eta"){
-      max = 1.;
-      min = 0.01;
+      max = 10.;
+      min = 0.1;
     }
     else if(var=="Phi"){
-      max = 1.;
-      min = 0.001;
+      max = 10.;
+      min = 0.01;
     }
     else if(var=="Pt"){
-      max = 1.;
-      min = 0.00001;
+      max = 10.;
+      min = 0.0001;
     }
     else{
-      max = 1.;
-      min = 0.00001;
+      max = 10.;
+      min = 0.0001;
     }
   }
   else if(cutvar=="DotDir"){
     if(var=="Eta"){
-      max = 1.;
-      min = 0.01;
+      max = 10.;
+      min = 0.1;
     }
     else if(var=="Phi"){
-      max = 1.;
-      min = 0.001;
+      max = 10.;
+      min = 0.01;
     }
     else if(var=="Pt"){
-      max = 1.;
-      min = 0.000001;
+      max = 10.;
+      min = 0.00001;
     }
     else{
-      max = 1.;
-      min = 0.00001;
+      max = 10.;
+      min = 0.0001;
     }
   }
   else{
-    max = 1.;
-    min = 0.00001;
+    max = 10.;
+    min = 0.0001;
   }
 }
